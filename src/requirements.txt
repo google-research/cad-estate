@@ -1,0 +1,28 @@
+# For file_system.py
+aiofiles
+aiohttp
+backoff
+gcloud-aio-storage
+gcloud-rest-storage
+google-cloud-storage
+nest-asyncio  # Fixes async IO in interactive enviroments (e.g. Jupyter)
+
+# For rendering
+glcontext
+moderngl
+
+# Jupyter
+jupyter
+ipywidgets
+
+# Standard CV/ML libraries:
+numpy
+pandas
+Pillow
+torch
+torchvision
+
+# Other
+appdirs
+tqdm
+yt-dlp
