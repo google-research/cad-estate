@@ -13,12 +13,12 @@
 # limitations under the License.
 #
 # Author: spopov@google.com (Stefan Popov)
+#
 """Routines for working with OpenGL EGL contexts."""
 
 import ctypes
 import logging
 import os
-from typing import Dict, Optional, Text
 
 import glcontext
 
@@ -130,7 +130,7 @@ class EGL:
     return result
 
 
-_eglInstance: Optional[EGL] = None
+_eglInstance: EGL | None = None
 
 
 def _egl():
@@ -145,8 +145,8 @@ class ContextError(Exception):
 
 
 class EglContext:
-  _context_cache: Dict[int, EGL.EGLDisplay] = {}
-  _cuda_to_egl_mapping: Dict[int, EGL.EGLDeviceEXT] = {}
+  _context_cache: dict[int, EGL.EGLDisplay] = {}
+  _cuda_to_egl_mapping: dict[int, EGL.EGLDeviceEXT] = {}
 
   def __init__(self, cuda_device: int):
     if cuda_device in EglContext._context_cache:
@@ -161,7 +161,7 @@ class EglContext:
     self.__enter__()
 
   @classmethod
-  def _egl_check_success(cls, pred: bool, msg: Text, level=logging.FATAL):
+  def _egl_check_success(cls, pred: bool, msg: str, level=logging.FATAL):
     err = _egl().eglGetError()
     if not pred or err != EGL.EGL_SUCCESS:
       msg = f"{msg}. EGL error is: 0x{err:x}."
@@ -248,7 +248,7 @@ class EglContext:
     self._egl_check_success(context, "Unable to create context")
     return context
 
-  def load(self, name: Text) -> int:
+  def load(self, name: str) -> int:
     log.debug(f"Loading function {name}")
     return _egl().load_function(name.encode())
 

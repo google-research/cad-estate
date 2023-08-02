@@ -13,18 +13,79 @@
 # limitations under the License.
 #
 # Author: spopov@google.com (Stefan Popov)
+#
 """Miscellaneous utilities that don't fit anywhere else."""
 
-from typing import Iterable, Optional, Union
+import colorsys
+import dataclasses
+import re
+from typing import Any, Callable, Iterable, TypeVar
 
 import numpy as np
 import torch as t
 
-InputTensor = Union[t.Tensor, np.ndarray, int, float, Iterable]
+InputTensor = t.Tensor | np.ndarray | int | float | Iterable
+TorchDevice = t.device | str | None
+T = TypeVar("T")
+
+
+class TensorContainerMixin:
+  """Allows unified operation on all tensors contained in a dataclass."""
+
+  def _apply(self, fn: Callable[[t.Tensor], t.Tensor]):
+    result = []
+    for field in dataclasses.fields(self):
+      field = getattr(self, field.name)
+      if t.is_tensor(field):
+        field = fn(field)
+      elif isinstance(field, list) or isinstance(field, tuple):
+        field = [fn(e) if t.is_tensor(e) else e for e in field]
+      elif isinstance(field, TensorContainerMixin):
+        field = field._apply(fn)
+      result.append(field)
+    return type(self)(*result)
+
+  def cuda(self: T) -> T:
+    return self._apply(lambda v: v.cuda())
+
+  def cpu(self: T) -> T:
+    return self._apply(lambda v: v.cpu())
+
+  def detach(self: T) -> T:
+    return self._apply(lambda v: v.detach())
+
+  def numpy(self: T) -> T:
+    return self._apply(lambda v: v.numpy())
+
+  def to(self: T, device: TorchDevice) -> T:
+    return self._apply(lambda v: v.to(device))
+
+  def __getitem__(self: T, index: Any) -> T:
+    return self._apply(lambda v: v[index])
+
+  def get_structure(self) -> dict[str, str]:
+    """Debugging routine, returns type and shape of the each field."""
+    result = {}
+    for field in dataclasses.fields(self):
+      v = getattr(self, field.name)
+      if t.is_tensor(v):
+        v: t.Tensor = v.detach()
+        dtype = re.sub(r"^torch\.", "", str(v.dtype))
+        structure = f"t.{dtype}{list(v.shape)}({v.device})"
+      elif isinstance(v, np.ndarray):
+        structure = f"np.{v.dtype.name}{list(v.shape)}"
+      elif isinstance(v, list):
+        structure = f"list[{len(v)}]"
+      elif isinstance(v, tuple):
+        structure = f"tuple[{len(v)}]"
+      else:
+        structure = f"{type(v).__name__}"
+      result[field.name] = structure
+    return result
 
 
 def to_tensor(v: InputTensor, dtype: t.dtype,
-              device: Optional[Union[t.device, str]] = None) -> t.Tensor:
+              device: t.device | str | None = None) -> t.Tensor:
   """Converts a value to tensor, checking the type.
 
   Args:
@@ -77,3 +138,16 @@ def dynamic_tile(partition_lengths: t.Tensor) -> t.Tensor:
   result[start_index] = 1
   result = result.cumsum(0, dtype=partition_lengths.dtype)
   return non_zero_idx[result]
+
+
+def get_palette():
+  """Creates a color palette with 32 entries."""
+  color_palette = []
+  for h in t.arange(0., 1., 1 / 32):
+    color_palette.append(colorsys.hsv_to_rgb(h, 1, 0.7))
+    color_palette.append(colorsys.hsv_to_rgb(h, 0.5, 0.7))
+  color_palette = t.tensor(color_palette, dtype=t.float32)
+  g = t.Generator()
+  g.manual_seed(1)
+  color_palette = color_palette[t.randperm(color_palette.shape[0], generator=g)]
+  return color_palette

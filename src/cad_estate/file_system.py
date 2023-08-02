@@ -13,6 +13,7 @@
 # limitations under the License.
 #
 # Author: spopov@google.com (Stefan Popov)
+#
 """File library with support for local and GCS file systems."""
 
 import asyncio
@@ -32,8 +33,8 @@ import gcloud.aio.storage as aio_storage
 import google.api_core.exceptions
 from google.cloud import storage
 
-_gcs_client: t.Optional[storage.Client] = None
-_gcs_async_client: t.Optional[aio_storage.Storage] = None
+_gcs_client: storage.Client | None = None
+_gcs_async_client: aio_storage.Storage | None = None
 log = logging.getLogger(__name__)
 T = t.TypeVar("T")
 NUM_GCS_RETRIES = 3
@@ -42,6 +43,18 @@ RECOVERABLE_ERRORS = (aiohttp.ClientResponseError,
                       aiohttp.client_exceptions.ClientError,
                       aiohttp.client_exceptions.ClientResponseError,
                       asyncio.TimeoutError)
+
+
+def _should_giveup(e: Exception):
+  if isinstance(e, aiohttp.ClientResponseError) and e.status == 404:
+    return True
+  return False
+
+
+backoff_decorator = backoff.on_exception(
+    backoff.expo, RECOVERABLE_ERRORS, max_tries=NUM_GCS_RETRIES,
+    jitter=backoff.full_jitter, backoff_log_level=logging.DEBUG,
+    giveup_log_level=logging.DEBUG, giveup=_should_giveup)
 
 
 @contextlib.contextmanager
@@ -103,7 +116,6 @@ def get_gcs_async_client():
   return _gcs_async_client
 
 
-# noinspection PyBroadException
 def repeat_if_error(fn: t.Callable[[], T], num_tries, not_found_ok=False) -> T:
   for try_index in range(num_tries - 1):
     try:
@@ -131,8 +143,7 @@ def read_bytes(path: str) -> bytes:
       return fl.read()
 
 
-@backoff.on_exception(backoff.expo, RECOVERABLE_ERRORS,
-                      max_tries=NUM_GCS_RETRIES, jitter=backoff.full_jitter)
+@backoff_decorator
 async def read_bytes_async(path: str) -> bytes:
   if is_gs_path(path):
     bucket_name, gcs_path = parse_gs_path(path)
@@ -174,7 +185,7 @@ async def await_in_parallel(awaitables: t.Collection[t.Awaitable[T]],
 
 async def read_all_bytes_async(
     file_paths: t.Sequence[str], max_parallel_read_tasks: int = 50,
-    progress_callback: t.Optional[t.Callable[[], None]] = None) -> list[bytes]:
+    progress_callback: t.Callable[[], None] | None = None) -> list[bytes]:
   """Reads binary files in parallel, using the async interface."""
 
   async def read_file(path: str):
@@ -209,8 +220,7 @@ def write_bytes(path: str, contents: bytes):
       fl.write(contents)
 
 
-@backoff.on_exception(backoff.expo, RECOVERABLE_ERRORS,
-                      max_tries=NUM_GCS_RETRIES, jitter=backoff.full_jitter)
+@backoff_decorator
 async def write_bytes_async(path: str, contents: bytes):
   if is_gs_path(path):
     bucket_name, gcs_path = parse_gs_path(path)
@@ -325,7 +335,7 @@ def dirname(p: str):
 def abspath(p: str):
   if is_gs_path(p):
     return p
-  return os.path.abspath(p)
+  return os.path.abspath(os.path.expanduser(p))
 
 
 def basename(p: str):
@@ -346,8 +356,7 @@ def splitext(p: str):
   return os.path.splitext(p)
 
 
-@backoff.on_exception(backoff.expo, RECOVERABLE_ERRORS,
-                      max_tries=NUM_GCS_RETRIES, jitter=backoff.full_jitter)
+@backoff_decorator
 def exists(path: str):
   if is_gs_path(path):
     bucket_name, gcs_path = parse_gs_path(path)

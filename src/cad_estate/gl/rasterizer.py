@@ -13,12 +13,13 @@
 # limitations under the License.
 #
 # Author: spopov@google.com (Stefan Popov)
+#
 """An OpenGL rasterizer for PyTorch."""
 
 import dataclasses
 import importlib
 import logging
-from typing import Iterable, Optional, Tuple, Union
+from typing import Iterable
 
 import glcontext
 import moderngl
@@ -30,7 +31,7 @@ from cad_estate.gl import egl_context
 importlib.reload(glcontext)
 egl_context.monkey_patch_moderngl()
 
-InputTensor = Union[t.Tensor, np.ndarray, int, float, bool, Iterable]
+InputTensor = t.Tensor | np.ndarray | int | float | bool | Iterable
 
 log = logging.getLogger(__name__)
 
@@ -62,7 +63,7 @@ class RenderInput:
   num_points: int
 
   # The parameters to pass to the shaders.
-  arguments: Iterable[Union[Uniform, Buffer, Texture]]
+  arguments: Iterable[Uniform | Buffer | Texture]
 
   # The vertex shader
   vertex_shader: str
@@ -74,7 +75,7 @@ class RenderInput:
   fragment_shader: str
 
   # The output resolution, tuple (height, width)
-  output_resolution: Tuple[int, int] = (256, 256)
+  output_resolution: tuple[int, int] = (256, 256)
 
   # The clear color, tuple (R, G, B) or (R, G, B, A).
   clear_color: Iterable[float] = (0, 0, 0)
@@ -231,8 +232,7 @@ def get_egl_device(cuda_device: int) -> int:
   pass
 
 
-def gl_simple_render(render_input: RenderInput,
-                     cuda_device: Optional[int] = None):
+def gl_simple_render(render_input: RenderInput, cuda_device: int | None = None):
   """Renders the supplied configuration with OpenGL.
 
   Args:

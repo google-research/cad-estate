@@ -24,5 +24,6 @@ torchvision
 
 # Other
 appdirs
+ray[default]
 tqdm
 yt-dlp

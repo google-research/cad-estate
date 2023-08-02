@@ -1,0 +1,13 @@
+[style]
+based_on_style = google
+indent_width: 2
+split_before_logical_operator = true
+column_limit = 80
+
+coalesce_brackets = true
+split_before_dot = true
+split_before_expression_after_opening_paren = true
+split_penalty_comprehension = 50
+split_penalty_for_added_line_split = 50
+split_all_comma_separated_values = false
+split_before_named_assigns = false

@@ -13,11 +13,12 @@
 # limitations under the License.
 #
 # Author: spopov@google.com (Stefan Popov)
+#
 """High level routines for rendering scenes."""
 
 import io
 from importlib import resources
-from typing import Iterable, Tuple, Union
+from typing import Iterable
 
 import numpy as np
 import PIL.Image
@@ -27,13 +28,13 @@ from cad_estate import misc_util
 from cad_estate.gl import rasterizer
 from cad_estate.gl import shaders
 
-InputTensor = Union[t.Tensor, np.ndarray, int, float, Iterable, None]
+InputTensor = t.Tensor | np.ndarray | int | float | Iterable | None
 
 
 def load_textures(
     encoded_images: Iterable[bytes],
-    texture_size: Tuple[int, int],
-) -> Tuple[t.Tensor, t.Tensor]:
+    texture_size: tuple[int, int],
+) -> tuple[t.Tensor, t.Tensor]:
   """Composes a texture array from encoded images contained in strings.
 
   Args:
@@ -83,7 +84,7 @@ def load_textures(
 def render_scene(
     vertex_positions: InputTensor,
     view_projection_matrix: InputTensor,
-    image_size: Tuple[int, int] = (256, 256),
+    image_size: tuple[int, int] = (256, 256),
     *,
     normals: InputTensor = None,
     vertex_colors: InputTensor = None,
