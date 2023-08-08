@@ -132,8 +132,8 @@ def extract_frames(video_path: pathlib.Path, out_dir: pathlib.Path,
 
 def get_video_timestamps(json_path: pathlib.Path):
   ann_json = json.loads(json_path.read_text())
-  video_id = ann_json["video_id"]
-  video_id = re.match(r"^(.+)_\d+$", video_id).group(1)
+  clip_name = ann_json["clip_name"]
+  video_id = re.match(r"^(.+)_\d+$", clip_name).group(1)
   timestamps = [v["timestamp"] for v in ann_json["frames"]]
   return video_id, timestamps
 
