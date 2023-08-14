@@ -1,5 +1,5 @@
 This is not an officially supported Google product.
-# CAD-Estate dataset
+# CAD-Estate dataset: 3D object and room layout annotations on RGB videos of real estate scenes
 
 Current state-of-the-art methods for 3D scene understanding are driven by large
 annotated datasets. To address this, we propose CAD-Estate, a large dataset of
@@ -19,7 +19,7 @@ views of real estate properties. They pose a difficult challenge for automatic
 scene understanding methods, as they contain numerous objects in each frame,
 many of which are far from the camera and thus appear small. In comparison to
 Scan2CAD, the largest existing dataset with CAD model annotations on real
-scenes, CAD-Estate has 8x more instances and 4x more unique CAD models.
+scenes, CAD-Estate has 7x more instances and 4x more unique CAD models.
 
 We produce generic 3D room layouts from 2D segmentation masks, which are easy to
 annotate for humans. Our method [2], automatically reconstructs 3D plane
@@ -30,10 +30,12 @@ multiple rooms connected by open doors, multiple floors connected by stairs, and
 generic geometry with slanted structural elements. Our automatic quality control
 procedure guarantees high quality of the resulting 3D room layouts.
 
-<p style="text-align: center;">Example of objects dataset</p>
+This dataset contains both datasets that are described in [1], and [2].
+
+<p style="text-align: center;">Example of objects dataset (from [1])</p>
 <p align="center"><img src="doc/objects_1.gif" align="center" width=480 height=auto/></p>
 
-<p style="text-align: center;">Example of layouts dataset</p>
+<p style="text-align: center;">Example of layouts dataset (from [2])</p>
 <p align="center"><img src="doc/structures_4.gif" align="center" width=480 height=auto/></p>
 
 ## How to use the dataset

@@ -49,6 +49,9 @@ wget https://storage.googleapis.com/gresearch/cad-estate/room_structures__mftdmm
 wget https://storage.googleapis.com/gresearch/cad-estate/object_annotations__mfqwemtc.tgz -O - | tar xzf -
 ```
 
+The dataset of objects contains 21452 scenes (`<scene_name>/objects.json`), out of which 19512 have at least one successfully aligned 3D object.
+The dataset of layouts contains 2246 scenes (`<scene_name>/room_structure.npz`).
+
 ## Download and prepare ShapeNet
 The CAD models in CAD-Estate are provided by [ShapeNet](https://shapenet.org/).
 You need to download `ShapeNetCore.v2.zip` from ShapeNet's original site,
