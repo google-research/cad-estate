@@ -46,7 +46,7 @@ assumes that the code lives in `${WORKDIR}/cad_estate` and the dataset in
 according to the instructions.
 
 You can visualize individual scenes with included Jupyter notebooks:
-[room_structure_notebook.ipynb](./src/cad_estate/notebooks/objects_notebook.ipynb)
+[objects_notebook.ipynb](./src/cad_estate/notebooks/objects_notebook.ipynb)
 and
 [room_structure_notebook.ipynb](./src/cad_estate/notebooks/room_structure_notebook.ipynb).
 To start a Jupyter kernel for them, use:
