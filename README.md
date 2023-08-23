@@ -32,11 +32,34 @@ procedure guarantees high quality of the resulting 3D room layouts.
 
 This dataset contains both datasets that are described in [1], and [2].
 
-<p style="text-align: center;">Example of objects dataset (from [1])</p>
-<p align="center"><img src="doc/objects_1.gif" align="center" width=480 height=auto/></p>
+<br>
+<p align="center">Examples of objects dataset [1]</p>
+<p align="center">
+  <img src="doc/objects_1.gif" align="center" height=130 width=auto/> 
+  <img src="doc/objects_2.gif" align="center" height=130 width=auto/> 
+  <img src="doc/objects_3.gif" align="center" height=130 width=auto/> 
+  <img src="doc/objects_4.gif" align="center" height=130 width=auto/>
+</p>
+<p align="center">
+  <img src="doc/objects_1.png" align="center" height=auto width=230/> 
+  <img src="doc/objects_2.png" align="center" height=auto width=230/> 
+  <img src="doc/objects_3.png" align="center" height=auto width=230/> 
+  <img src="doc/objects_4.png" align="center" height=auto width=230/>
+</p>
 
-<p style="text-align: center;">Example of layouts dataset (from [2])</p>
-<p align="center"><img src="doc/structures_4.gif" align="center" width=480 height=auto/></p>
+<br>
+<p align="center">Examples of layouts dataset [2]</p>
+<p align="center">
+  <img src="doc/structures_3.gif" align="center" height=130 width=auto/>
+  <img src="doc/structures_4.gif" align="center" height=130 width=auto/> 
+  <img src="doc/structures_5.gif" align="center" height=130 width=auto/> 
+  <img src="doc/structures_6.gif" align="center" height=130 width=auto/> 
+</p>
+<p align="center">
+  <img src="doc/structures_1.png" align="center" height=220 width=auto/> 
+  <img src="doc/structures_2.png" align="center" height=220 width=auto/> 
+  <img src="doc/structures_3.png" align="center" height=220 width=auto/> 
+</p>
 
 ## How to use the dataset
 You need to first download the dataset and the accompanying source code,
