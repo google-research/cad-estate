@@ -37,13 +37,11 @@ This dataset contains both datasets that are described in [1], and [2].
 <p align="center">
   <img src="doc/objects_1.gif" align="center" height=130 width=auto/> 
   <img src="doc/objects_2.gif" align="center" height=130 width=auto/> 
-  <img src="doc/objects_3.gif" align="center" height=130 width=auto/> 
   <img src="doc/objects_4.gif" align="center" height=130 width=auto/>
 </p>
 <p align="center">
   <img src="doc/objects_1.png" align="center" height=auto width=230/> 
   <img src="doc/objects_2.png" align="center" height=auto width=230/> 
-  <img src="doc/objects_3.png" align="center" height=auto width=230/> 
   <img src="doc/objects_4.png" align="center" height=auto width=230/>
 </p>
 
@@ -53,12 +51,10 @@ This dataset contains both datasets that are described in [1], and [2].
   <img src="doc/structures_3.gif" align="center" height=130 width=auto/>
   <img src="doc/structures_4.gif" align="center" height=130 width=auto/> 
   <img src="doc/structures_5.gif" align="center" height=130 width=auto/> 
-  <img src="doc/structures_6.gif" align="center" height=130 width=auto/> 
 </p>
 <p align="center">
-  <img src="doc/structures_1.png" align="center" height=220 width=auto/> 
-  <img src="doc/structures_2.png" align="center" height=220 width=auto/> 
-  <img src="doc/structures_3.png" align="center" height=220 width=auto/> 
+  <img src="doc/structures_1.png" align="center" height=205 width=auto/> 
+  <img src="doc/structures_2.png" align="center" height=205 width=auto/> 
 </p>
 
 ## How to use the dataset
