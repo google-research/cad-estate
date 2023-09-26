@@ -89,7 +89,7 @@ videos[4]. If you use the 3D room layouts, please cite [2,4]. CAD-Estate
 contains 3D room layouts [2] over RealEstate10K videos [4].
 
 [[1] K.-K. Maninis, S. Popov, M. Nießner, and V. Ferrari. CAD-Estate: Large-scale CAD Model Annotation in RGB Videos. In ICCV, 2023 (to appear).](https://arxiv.org/abs/2306.09011)\
-[[2] D. Rozumnyi, S. Popov, K.-K. Maninis, M. Nießner, V. Ferrari. Estimating Generic 3D Room Structures from 2D Annotations. arXiv preprint, 2023.](https://arxiv.org/abs/2306.09077) \
+[[2] D. Rozumnyi, S. Popov, K.-K. Maninis, M. Nießner, V. Ferrari. Estimating Generic 3D Room Structures from 2D Annotations. In NeurIPS, 2023.](https://arxiv.org/abs/2306.09077) \
 [[3] A. Chang, T. Funkhouser, L. Guibas, P. Hanrahan, Q. Huang, Z. Li, S. Savarese, M. Savva, S. Song, H. Su, J. Xiao, L. Yi, and Fisher Yu. ShapeNet: An Information-Rich 3D Model Repository. arXiv preprint, 2015.](https://arxiv.org/abs/1512.03012) \
 [[4] T. Zhou, R. Tucker, J. Flynn, G. Fyffe, and N. Snavely. Stereo Magnification: Learning view synthesis using multiplane images. In SIGGRAPH, 2018](https://research.google/pubs/pub46965).
 
