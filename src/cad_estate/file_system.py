@@ -59,6 +59,7 @@ backoff_decorator = backoff.on_exception(
 
 @contextlib.contextmanager
 def auto_close_async_session():
+  global _gcs_async_client
   try:
     yield None
   finally:
